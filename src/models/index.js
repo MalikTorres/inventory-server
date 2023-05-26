@@ -25,5 +25,5 @@ module.exports = {
   db: sequelize,
   stores: new Collection(Stores),
   product: new Collection(Product),
-  user: User,
+  user: new Collection(User),
 };
