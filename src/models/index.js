@@ -2,20 +2,28 @@
 
 const { Sequelize, DataTypes } = require('sequelize');
 const productModel = require('./product/model.js');
-const foodModel = require('./food/model.js');
-const userModel = require('../auth/models/users.js');
+const storesModel = require('./stores/model.js');
 const Collection = require('./data-collection.js');
+const userModel = require('../auth/models/users.js');
 
 const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 
 const sequelize = new Sequelize(DATABASE_URL);
-const food = foodModel(sequelize, DataTypes);
-const product = productModel(sequelize, DataTypes);
-const users = userModel(sequelize, DataTypes);
+const Stores = storesModel(sequelize, DataTypes);
+const Product = productModel(sequelize, DataTypes);
+const User = userModel(sequelize, DataTypes);
+
+// Stores.hasMany(Product, {
+//   foreignKey:'groceryStoreId',
+// });
+
+// Product.belongsTo(Stores, {
+//   foreignKey:'groceryStoreId',
+// });
 
 module.exports = {
   db: sequelize,
-  food: new Collection(food),
-  product: new Collection(product),
-  users,
+  stores: new Collection(Stores),
+  product: new Collection(Product),
+  user: User,
 };

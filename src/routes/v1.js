@@ -1,19 +1,10 @@
 'use strict';
 
 const express = require('express');
-const dataModules = require('../models');
+const modelsMiddleware = require('../auth/middleware/model.js');
 
 const router = express.Router();
-
-router.param('model', (req, res, next) => {
-  const modelName = req.params.model;
-  if (dataModules[modelName]) {
-    req.model = dataModules[modelName];
-    next();
-  } else {
-    next('Invalid Model');
-  }
-});
+router.param('model', modelsMiddleware);
 
 router.get('/:model', handleGetAll);
 router.get('/:model/:id', handleGetOne);
