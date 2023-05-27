@@ -4,14 +4,14 @@ const express = require('express');
 const authRouter = express.Router();
 
 // this was updated to import from the root level models/index.js
-const { user } = require('../models/index');
+const { users } = require('../models/index');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth = require('./middleware/bearer.js');
 const permissions = require('./middleware/acl.js');
 
 authRouter.post('/signup', async (req, res, next) => {
   try {
-    let userRecord = await user.create(req.body);
+    let userRecord = await users.create(req.body);
     const output = {
       user: userRecord,
       token: userRecord.token,
@@ -31,7 +31,7 @@ authRouter.post('/signin', basicAuth, (req, res, next) => {
 });
 
 authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {
-  const userRecords = await user.findAll({});
+  const userRecords = await users.findAll({});
   const list = userRecords.map(user => user.username);
   res.status(200).json(list);
 });

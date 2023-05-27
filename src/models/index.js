@@ -11,7 +11,7 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const sequelize = new Sequelize(DATABASE_URL);
 const Stores = storesModel(sequelize, DataTypes);
 const Product = productModel(sequelize, DataTypes);
-const User = userModel(sequelize, DataTypes);
+const users = userModel(sequelize, DataTypes);
 
 // Stores.hasMany(Product, {
 //   foreignKey:'groceryStoreId',
@@ -25,5 +25,5 @@ module.exports = {
   db: sequelize,
   stores: new Collection(Stores),
   product: new Collection(Product),
-  user: new Collection(User),
+  users,
 };
